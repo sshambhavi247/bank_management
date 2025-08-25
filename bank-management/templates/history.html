@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Transaction History</h2>
+  <table class="history-table">
+    <thead>
+      <tr><th>Time</th><th>Type</th><th>Counterparty</th><th>Amount</th><th>Note</th></tr>
+    </thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr>
+        <td>{{ t.txn_time.strftime('%Y-%m-%d %H:%M') if t.txn_time else t.txn_time }}</td>
+        <td>{% if t.sender_id == user.id %}Sent{% else %}Received{% endif %}</td>
+        <td>{% if t.sender_id == user.id %}{{ t.receiver_name }}{% else %}{{ t.sender_name }}{% endif %}</td>
+        <td>₹{{ '%.2f'|format(t.amount) }}</td>
+        <td>{{ t.note or '-' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

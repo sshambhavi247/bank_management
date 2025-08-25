@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="dashboard">
+  <div class="profile-card">
+    <h3>Hello, {{ user.name }}</h3>
+    <p class="big-balance">₹{{ '%.2f'|format(user.balance) }}</p>
+    <a href="{{ url_for('transfer') }}" class="btn">Send Money</a>
+  </div>
+
+  <div class="recent-card">
+    <h4>Recent activity</h4>
+    {% if transactions %}
+      <ul class="tx-list">
+        {% for t in transactions %}
+          <li>
+            <div>{{ t.txn_time.strftime('%Y-%m-%d %H:%M') if t.txn_time else t.txn_time }}</div>
+            <div class="muted">
+              {% if t.sender_id == user.id %}
+                Sent ₹{{ '%.2f'|format(t.amount) }} to {{ t.receiver_name or 'Unknown' }}
+              {% else %}
+                Received ₹{{ '%.2f'|format(t.amount) }} from {{ t.sender_name or 'Unknown' }}
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="{{ url_for('history') }}">View all</a>
+    {% else %}
+      <p class="muted">No transactions yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

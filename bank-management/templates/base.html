@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MiniBank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script defer>
+    // small flash auto-hide
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(()=> {
+        const f = document.querySelector('.flash');
+        if(f) f.style.opacity = 0;
+      }, 3000);
+    });
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand"><a href="{{ url_for('index') }}">MiniBank</a></div>
+    <div class="nav-links">
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('transfer') }}">Transfer</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}" class="btn-ghost">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('register') }}" class="btn-ghost">Register</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash">
+          {% for category, msg in messages %}
+            <div class="flash-item {{ category }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <small>MiniBank • Simple demo • Not for production</small>
+  </footer>
+</body>
+</html>

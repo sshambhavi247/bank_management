@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Banking, simplified</h1>
+    <p>Fast transfers, clean UI — a demo project for learning full-stack with Flask and MySQL.</p>
+    <div class="cta">
+      <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+      <a href="{{ url_for('login') }}" class="btn-ghost">Login</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="balance-pill">New users get ₹1,000</div>
+    <div class="sparkline">💳 • Clean UI</div>
+  </div>
+</section>
+{% endblock %}
